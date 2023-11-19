@@ -1,0 +1,12 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h2>Lista filmow</h2>
+    <ul>
+      {% for movie in movies %}
+      <li>{{movie.title}}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

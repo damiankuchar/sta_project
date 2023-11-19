@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Actor(models.Model):
@@ -35,7 +36,9 @@ class Tag(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=70)
     description = models.TextField()
-    release_date = models.DateField()
+    release_date = models.IntegerField(
+        validators=[MinValueValidator(1800), MaxValueValidator(2100)]
+    )
     director = models.ForeignKey(Director, on_delete=models.SET_NULL, null=True)
     tags = models.ManyToManyField(Tag)
     actors = models.ManyToManyField(Actor)
