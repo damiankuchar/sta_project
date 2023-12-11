@@ -5,7 +5,7 @@ from django.template import loader
 
 
 def index(request):
-    return HttpResponse("<h1>Strona główna</h1>")
+    return render(request, "forum_filmowe/index.html")
 
 
 def movies_index(request):
