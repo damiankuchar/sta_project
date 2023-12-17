@@ -1,4 +1,6 @@
-<!-- <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
+{% load static %}
+
+<button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
     type="button"
     class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
     <span class="sr-only">Open sidebar</span>
@@ -9,47 +11,17 @@
     </svg>
 </button>
 
-<aside id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full"
     aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-slate-800">
         <button id="hide-sidebar-btn" onclick="toggleSidebar()"
-            class="fixed top-1/2 -right-3 bg-gray-300 text-white w-6 h-6 rounded sm:flex items-center justify-center transition-right duration-150 ease-in-out hidden">
-            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 8 14">
+            class="fixed top-1/2 -right-6 bg-blue-700 text-white w-6 h-6 rounded hidden sm:flex items-center justify-center">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
                 <path id="arrow-path" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13" />
+                    stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1" />
             </svg>
         </button>
     </div>
 </aside>
 
-<script>
-    let isArrowRotated = false;
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const isSidebarOpen = localStorage.getItem('isSidebarOpen') === 'false';
-
-        if (isSidebarOpen) {
-            toggleSidebar();
-        }
-    });
-
-    function toggleSidebar() {
-        const sidebar = document.getElementById('default-sidebar');
-        const hideSidebarButton = document.getElementById("hide-sidebar-btn");
-        const arrowPath = document.getElementById("arrow-path");
-
-        sidebar.classList.toggle('sm:translate-x-0');
-        hideSidebarButton.classList.toggle("-right-6")
-
-        isArrowRotated = !isArrowRotated;
-        if (isArrowRotated) {
-            arrowPath.setAttribute("transform", "rotate(180, 4, 7)");
-        } else {
-            arrowPath.setAttribute("transform", "rotate(0)");
-        }
-
-        localStorage.setItem('isSidebarOpen', !isArrowRotated);
-    }
-</script> -->
+<script src="{% static 'src/scripts/sidebar.js' %}"></script>
