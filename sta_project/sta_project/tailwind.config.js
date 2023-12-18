@@ -2,7 +2,8 @@
 module.exports = {
   content: [
     './templates/**/*.html',
-    './node_modules/flowbite/**/*.js'
+    './node_modules/flowbite/**/*.js',
+    '../forum_filmowe/templates/forum_filmowe/**/*.html'
   ],
   theme: {
     extend: {},

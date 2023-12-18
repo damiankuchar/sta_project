@@ -19,12 +19,11 @@
     {% endcompress %}
 </head>
 
-{% include 'navbar.html' %}
-
 <body class="bg-white dark:bg-gray-900">
+    {% include 'navbar.html' %}
     {% include 'sidebar.html' %}
 
-    <div class="container mx-auto mt-4">
+    <div class="container mx-auto mt-20 mb-20">
         {% block content %}
         {% endblock content %}
     </div>
