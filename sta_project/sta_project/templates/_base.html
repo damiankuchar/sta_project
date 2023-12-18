@@ -19,17 +19,19 @@
     {% endcompress %}
 </head>
 
-<body class="bg-white dark:bg-gray-900">
-    {% include 'navbar.html' %}
-    {% include 'sidebar.html' %}
+<body>
+    <div class="flex flex-col min-h-screen bg-white dark:bg-gray-900">
+        <div class="flex grow">
+            {% include 'navbar.html' %}
+            {% include 'sidebar.html' %}
 
-    <div class="container mx-auto mt-20 mb-20">
-        {% block content %}
-        {% endblock content %}
+            <div class="flex items-center justify-center container mx-auto mt-20">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+        {% include 'footer.html' %}
     </div>
-
-    {% include 'footer.html' %}
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 </body>
 
