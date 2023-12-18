@@ -1,18 +1,12 @@
-let isArrowRotated = false;
-
-function toggleSidebar() {
-    const sidebar = document.getElementById('default-sidebar');
-    const hideSidebarButton = document.getElementById("hide-sidebar-btn");
+function translateButton() {
+    const toggleButton = document.getElementById("hide-sidebar-btn");
     const arrowPath = document.getElementById("arrow-path");
 
-    sidebar.classList.toggle('sm:translate-x-0');
-    hideSidebarButton.classList.toggle("-right-6")
-    hideSidebarButton.classList.toggle("-right-3")
-
-    isArrowRotated = !isArrowRotated;
-    if (isArrowRotated) {
+    if (!toggleButton.style.transform || toggleButton.style.transform === "translateX(0px)") {
+        toggleButton.style.transform = "translateX(244px)";
         arrowPath.setAttribute("transform", "rotate(180, 4, 7)");
     } else {
+        toggleButton.style.transform = "translateX(0px)";
         arrowPath.setAttribute("transform", "rotate(0)");
     }
 }
