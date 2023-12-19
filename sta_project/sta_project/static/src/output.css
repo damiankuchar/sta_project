@@ -1347,8 +1347,16 @@ input:checked + .toggle-bg {
   flex-shrink: 1;
 }
 
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
 .grow {
   flex-grow: 1;
+}
+
+.grow-0 {
+  flex-grow: 0;
 }
 
 .-translate-x-full {
@@ -1714,6 +1722,10 @@ input:checked + .toggle-bg {
 
 .pt-2 {
   padding-top: 0.5rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .text-center {
