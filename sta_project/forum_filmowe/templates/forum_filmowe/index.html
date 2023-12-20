@@ -1,28 +1,31 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div class="space-y-7 mb-3">
+<div class="space-y-7 mb-3 sm:min-w-[576px] min-w-[320px]">
+    {% for post in posts %}
     <div
         class="max-w-xl px-3 bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
         <div class="mt-2 flex items-center">
-            <a href="user" class="flex text-sm bg-gray-800 rounded-full">
+            <span class="flex text-sm bg-gray-800 rounded-full">
                 <img class="w-7 h-7 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
                     alt="user photo">
-            </a>
-            <a href="user" class="ml-2 text-sm text-gray-900 dark:text-white font-light">adam@test.com</a>
+            </span>
+            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">{{ post.author.username }}</span>
             <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">•</span>
-            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">14.12.2023 10:39</span>
+            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">
+                {{ post.created_at|date:"d.m.Y H:i"}}
+            </span>
         </div>
         <div class="p-2">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Skazani na Shawshank
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ post.title }}
             </h5>
         </div>
-        <img class="rounded-t-lg" src="https://film.org.pl/wp-content/uploads/2020/12/shawshank-redemption.jpg"
+        {% if post.image %}
+        <img class="rounded-t-lg" src="{{ post.image.url }}"
             alt="" />
+        {% endif %}
         <div class="p-3">
-            <p class="font-normal text-gray-700 dark:text-gray-400">"Skazani na Shawshank" to poruszająca opowieść
-                o przyjaźni i nadziei w najmniej spodziewanym miejscu – więzieniu. Andy
-                Dufresne został skazany za zbrodnię, której nie popełnił.</p>
+            <p class="font-normal text-gray-700 dark:text-gray-400">{{ post.content }}</p>
         </div>
         <div class="inline-flex rounded-md shadow-sm mb-3" role="group">
             <a href="#" aria-current="page"
@@ -35,7 +38,7 @@
             </a>
             <span
                 class="px-2 py-1 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
-                82
+                {{ post.num_likes }}
             </span>
             <a href="#"
                 class="inline-flex items-center px-2 py-1 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 focus:z-10 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
@@ -52,7 +55,7 @@
                     <path
                         d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                 </svg>
-                223
+                {{ post.num_comments }}
             </button>
             <button type="button"
                 class="inline-flex items-center px-2 py-1 ml-3 text-white font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
@@ -65,71 +68,6 @@
             </button>
         </div>
     </div>
-
-    <div onclick="window.location.href='detail'"
-        class="max-w-xl px-3 bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
-        <div class="mt-2 flex items-center">
-            <a href="user" class="flex text-sm bg-gray-800 rounded-full">
-                <img class="w-7 h-7 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo">
-            </a>
-            <a href="user" class="ml-2 text-sm text-gray-900 dark:text-white font-light">norbi@test.com</a>
-            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">•</span>
-            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">16.12.2023 19:12</span>
-        </div>
-        <div class="p-2">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Breaking Bad
-            </h5>
-        </div>
-        <img class="rounded-t-lg" src="https://sluchacsercem.pl/wp-content/uploads/2021/05/265_230925025.jpg" alt="" />
-        <div class="p-3">
-            <p class="font-normal text-gray-700 dark:text-gray-400">"Breaking Bad" to uznany przez krytyków amerykański
-                serial telewizyjny stworzony przez Vince'a Gilligana. Fabuła skupia
-                się wokół postaci Waltera White'a, nauczyciela chemii z liceum, który staje się producentem
-                metamfetaminy (grany przez
-                Bryana Cranstona).</p>
-        </div>
-        <div class="inline-flex rounded-md shadow-sm mb-3" role="group">
-            <a href="#" aria-current="page"
-                class="inline-flex items-center px-2 py-1 text-sm font-medium bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 focus:z-10 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
-                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor" viewBox="0 0 18 18">
-                    <path
-                        d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
-                </svg>
-            </a>
-            <span
-                class="px-2 py-1 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
-                321
-            </span>
-            <a href="#"
-                class="inline-flex items-center px-2 py-1 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 focus:z-10 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
-                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor" viewBox="0 0 18 18">
-                    <path
-                        d="M11.955 2.117h-.114C9.732 1.535 6.941.5 4.356.5c-1.4 0-1.592.526-1.879 1.316l-2.355 7A2 2 0 0 0 2 11.5h3.956L4.4 16a1.779 1.779 0 0 0 3.332 1.061 24.8 24.8 0 0 1 4.226-5.36l-.003-9.584ZM15 11h2a1 1 0 0 0 1-1V2a2 2 0 1 0-4 0v8a1 1 0 0 0 1 1Z" />
-                </svg>
-            </a>
-            <button type="button"
-                class="inline-flex items-center px-2 py-1 ml-3 text-white font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
-                <svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                    <path
-                        d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
-                </svg>
-                554
-            </button>
-            <button type="button"
-                class="inline-flex items-center px-2 py-1 ml-3 text-white font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
-                <svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
-                </svg>
-                Copy link
-            </button>
-        </div>
-    </div>
-
+    {% endfor %}
 </div>
 {% endblock content %}

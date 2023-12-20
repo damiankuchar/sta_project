@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -69,6 +70,16 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'sta_project/static/'),
+    os.path.join(BASE_DIR, 'forum_filmowe/static/'),
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+
+print('MEDIA_ROOT', MEDIA_ROOT)
 
 WSGI_APPLICATION = "sta_project.wsgi.application"
 

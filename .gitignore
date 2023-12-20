@@ -90,3 +90,4 @@ db.sqlite3
 
 node_modules
 /sta_project/static/CACHE/css/*
+/sta_project/uploads/*
