@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const likeButtons = document.querySelectorAll('.like_button');
+    const copyLinkButtons = document.querySelectorAll('.copyLinkBtn');
 
     likeButtons.forEach((likeButton) => {
         likeButton.addEventListener('click', handleLike);
     });
+
+    copyLinkButtons.forEach((copyLinkButton) => {
+        copyLinkButton.addEventListener('click', handleCopyLink(copyLinkButton));
+    })
 
     function handleLike() {
         const postId = this.getAttribute('data-post-id');
@@ -19,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json()).then(data => {
                 const postElement = document.getElementById(`post${postId}`);
                 const likesCountElement = postElement.querySelector('.likes_count');
-                
+
                 likesCountElement.textContent = data.likes_count;
-                
+
                 const toastrMessage = data.liked
                     ? 'Polubiono post!'
                     : "Wycofano polubienie!";
@@ -46,5 +51,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         return cookieValue;
+    }
+
+    // Clipboard function
+    function handleCopyLink(copyLinkBtn) {
+        const postId = copyLinkBtn.getAttribute('data-post-id');
+
+        const clipboard = new ClipboardJS(copyLinkBtn, {
+            text: () => {
+                return `${window.location.origin}/forum_filmowe/details/${postId}`;
+            }
+        });
+
+        // Store the original button content
+        const orginalButton = copyLinkBtn.innerHTML;
+
+        // Show a tooltip on successful copy
+        clipboard.on('success', (e) => {
+            e.clearSelection();
+
+            // Change the SVG for 2 seconds
+            copyLinkBtn.innerHTML = '<svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg> Copied';
+
+            setTimeout(function () {
+                copyLinkBtn.innerHTML = orginalButton;
+            }, 2000);
+        });
+
+        // Show an error message on failure
+        clipboard.on('error', (e) => {
+            console.error('Unable to copy link', e);
+        });
     }
 })
