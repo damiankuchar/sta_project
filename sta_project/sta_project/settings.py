@@ -79,8 +79,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
-print('MEDIA_ROOT', MEDIA_ROOT)
-
 WSGI_APPLICATION = "sta_project.wsgi.application"
 
 COMPRESS_ROOT = BASE_DIR / 'static'

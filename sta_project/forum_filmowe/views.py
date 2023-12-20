@@ -1,6 +1,7 @@
 import uuid
-from django.shortcuts import render, redirect
-from .models import Category, Movie, Post
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from .models import Category, Like, Movie, Post
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib import messages
 from django.db.models import Count
@@ -13,7 +14,7 @@ def generate_unique_filename(filename):
 
 
 def index(request):
-    posts = Post.objects.annotate(num_comments=Count('comment'), num_likes=Count('like'))
+    posts = Post.objects.annotate(num_comments=Count('comment'), num_likes=Count('like')).order_by('-created_at')
 
     context = { 'posts': posts }
 
@@ -62,3 +63,23 @@ def add_post(request):
     context = { 'categories': categories }
 
     return render(request, 'forum_filmowe/add_post.html', context)
+
+
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+
+    if Like.objects.filter(user=user, post=post).exists():
+        # Unlike the post
+        Like.objects.filter(user=user, post=post).delete()
+        post.save()
+        liked = False
+    else:
+        # Like the post
+        Like.objects.create(user=user, post=post)
+        post.save()
+        liked = True
+
+    likes_count = post.like_set.count()
+
+    return JsonResponse({ 'liked': liked, 'likes_count': likes_count })
