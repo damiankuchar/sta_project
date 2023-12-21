@@ -14,6 +14,7 @@
 
 ### Open second terminal and run
 - `cd sta_project/sta_project`
+- `npm install`
 - `npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch`
 
 Have fun!
