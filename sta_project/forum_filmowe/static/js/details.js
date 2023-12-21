@@ -10,19 +10,26 @@ function handleSingleLike() {
         },
         body: JSON.stringify({})
     })
-        .then(response => response.json()).then(data => {
-            const postElement = document.getElementById(`post${postId}`);
-            const likesCountElement = postElement.querySelector('.likes_count');
-
-            likesCountElement.textContent = data.likes_count;
-
-            const toastrMessage = data.liked
-                ? 'Polubiono post!'
-                : "Wycofano polubienie!";
-
-            toastr.success(toastrMessage);
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const postElement = document.getElementById(`post${postId}`);
+                const likesCountElement = postElement.querySelector('.likes_count');
+    
+                likesCountElement.textContent = data.likes_count;
+    
+                const toastrMessage = data.liked
+                    ? 'Polubiono post!'
+                    : "Wycofano polubienie!";
+    
+                toastr.success(toastrMessage);
+            } else {
+                toastr.error(data.message);
+            }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.log("Error in handleSingleLike()")
+        });
 }
 
 
@@ -40,7 +47,9 @@ function handleSingleCopyLink() {
                 copyLinkBtn.innerHTML = orginalButton;
             }, 2000);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log("Error")
+        });
 
     const orginalButton = copyLinkBtn.innerHTML;
 }

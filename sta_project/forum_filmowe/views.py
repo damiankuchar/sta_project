@@ -69,23 +69,29 @@ def add_post(request):
 
 
 def like_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    user = request.user
+    try:
+        if not request.user.is_authenticated:
+            raise Exception('Musisz być zalogowany aby polubić post!')
 
-    if Like.objects.filter(user=user, post=post).exists():
-        # Unlike the post
-        Like.objects.filter(user=user, post=post).delete()
-        post.save()
-        liked = False
-    else:
-        # Like the post
-        Like.objects.create(user=user, post=post)
-        post.save()
-        liked = True
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user
 
-    likes_count = post.like_set.count()
+        if Like.objects.filter(user=user, post=post).exists():
+            # Unlike the post
+            Like.objects.filter(user=user, post=post).delete()
+            post.save()
+            liked = False
+        else:
+            # Like the post
+            Like.objects.create(user=user, post=post)
+            post.save()
+            liked = True
 
-    return JsonResponse({ 'liked': liked, 'likes_count': likes_count })
+        likes_count = post.like_set.count()
+
+        return JsonResponse({ 'success': True, 'liked': liked, 'likes_count': likes_count })
+    except Exception as e:
+        return JsonResponse({ 'success': False, 'message': str(e) })
 
 
 def details(request, post_id):
@@ -107,15 +113,22 @@ def details(request, post_id):
 
 
 def add_comment_to_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+    try:
+        if not request.user.is_authenticated:
+            raise Exception('Musisz być zalogowany aby dodać komentarz!')
 
-    if request.method == 'POST':
-        text = request.POST['comment']
-        user = request.user
+        post = get_object_or_404(Post, id=post_id)
 
-        comment = Comment.objects.create(user=user, post=post, text=text)
-        comment.save()
+        if request.method == 'POST':
+            text = request.POST['comment']
+            user = request.user
 
-        messages.success(request, 'Pomyślnie dodano komentarz!')
-    
-    return redirect('forum_filmowe:details', post_id=post_id)
+            comment = Comment.objects.create(user=user, post=post, text=text)
+            comment.save()
+
+            messages.success(request, 'Pomyślnie dodano komentarz!')
+        
+        return redirect('forum_filmowe:details', post_id=post_id)
+    except Exception as e:
+        messages.error(request, str(e))
+        return redirect('forum_filmowe:details', post_id=post_id)
