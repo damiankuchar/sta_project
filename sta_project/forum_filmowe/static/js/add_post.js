@@ -25,7 +25,7 @@ function previewFile(input) {
 function removeImage() {
     const preview = document.getElementById('file-preview');
     const dropZonePlaceholder = document.getElementById('dropzone-placeholder');
-    const input = document.getElementById('dropzone-file');
+    const input = document.getElementById('image');
 
     input.value = '';
 

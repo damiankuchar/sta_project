@@ -6,7 +6,7 @@
 <div class="space-y-7 mb-3 sm:min-w-[576px] min-w-[320px]">
     {% for post in posts %}
     <div id="post{{ post.id }}"
-        class="max-w-xl px-3 bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
+        class="post max-w-xl px-3 bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
         <div class="mt-2 flex items-center">
             <span class="flex text-sm bg-gray-800 rounded-full">
                 <img class="w-7 h-7 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
@@ -42,7 +42,7 @@
                 {{ post.num_likes }}
             </span>
             <div
-                class="inline-flex items-center px-2 py-1 ml-3 text-white font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
+                class="inline-flex items-center px-2 py-1 ml-3 text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
                 <svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                     <path
@@ -51,20 +51,19 @@
                 {{ post.num_comments }}
             </div>
             <button type="button" data-post-id="{{ post.id }}"
-                class="copyLinkBtn inline-flex items-center px-2 py-1 ml-3 text-white font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
+                class="copyLinkBtn inline-flex items-center px-2 py-1 ml-3 text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 font-medium rounded-lg text-sm text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:text-white">
                 <svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7" />
                 </svg>
-                Copy link
+                Skopiuj link
             </button>
         </div>
     </div>
     {% endfor %}
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
 
 {% endblock content %}

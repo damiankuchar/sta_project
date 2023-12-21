@@ -7,4 +7,6 @@ urlpatterns = [
     path("movies/", views.movies_index),
     path('add_post/', views.add_post, name='add_post'),
     path('like_post/<int:post_id>/', views.like_post, name='like_post'),
+    path('details/<int:post_id>/', views.details, name='details'),
+    path('add_comment/<int:post_id>/', views.add_comment_to_post, name='add_comment'),
 ]

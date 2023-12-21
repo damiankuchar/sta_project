@@ -1,7 +1,7 @@
 import uuid
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Category, Like, Movie, Post
+from .models import Category, Comment, Like, Movie, Post
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib import messages
 from django.db.models import Count
@@ -14,7 +14,10 @@ def generate_unique_filename(filename):
 
 
 def index(request):
-    posts = Post.objects.annotate(num_comments=Count('comment'), num_likes=Count('like')).order_by('-created_at')
+    posts = Post.objects.annotate(
+        num_comments=Count('comment', distinct=True),
+        num_likes=Count('like', distinct=True)
+    ).order_by('-created_at')
 
     context = { 'posts': posts }
 
@@ -83,3 +86,36 @@ def like_post(request, post_id):
     likes_count = post.like_set.count()
 
     return JsonResponse({ 'liked': liked, 'likes_count': likes_count })
+
+
+def details(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    comments_number = post.comment_set.count()
+    likes_number = post.like_set.count()
+
+    comments = post.comment_set.all().order_by('-created_at')
+
+    context = { 
+        'post': post, 
+        'comments': comments,
+        'comments_number': comments_number,
+        'likes_number': likes_number,
+    }
+
+    return render(request, 'forum_filmowe/details.html', context)
+
+
+def add_comment_to_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        text = request.POST['comment']
+        user = request.user
+
+        comment = Comment.objects.create(user=user, post=post, text=text)
+        comment.save()
+
+        messages.success(request, 'Pomyślnie dodano komentarz!')
+    
+    return redirect('forum_filmowe:details', post_id=post_id)

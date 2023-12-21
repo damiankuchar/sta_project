@@ -1,16 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const likeButtons = document.querySelectorAll('.like_button');
     const copyLinkButtons = document.querySelectorAll('.copyLinkBtn');
+    const postDivs = document.querySelectorAll('.post');
 
     likeButtons.forEach((likeButton) => {
         likeButton.addEventListener('click', handleLike);
     });
 
     copyLinkButtons.forEach((copyLinkButton) => {
-        copyLinkButton.addEventListener('click', handleCopyLink(copyLinkButton));
+        copyLinkButton.addEventListener('click', handleCopyLink);
     })
 
-    function handleLike() {
+    postDivs.forEach((postDiv) => {
+        postDiv.addEventListener('click', () => {
+            handleDetailLink(postDiv);
+        });
+    });
+
+    function handleLike(event) {
         const postId = this.getAttribute('data-post-id');
 
         fetch(`/forum_filmowe/like_post/${postId}/`, {
@@ -34,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 toastr.success(toastrMessage);
             })
             .catch(error => console.error('Error:', error));
+
+        event.stopPropagation();
     }
 
     // Function to get CSRF token from cookies
@@ -54,33 +63,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Clipboard function
-    function handleCopyLink(copyLinkBtn) {
+    function handleCopyLink(event) {
+        event.stopPropagation();
+
+        const copyLinkBtn = event.currentTarget;
+
         const postId = copyLinkBtn.getAttribute('data-post-id');
 
-        const clipboard = new ClipboardJS(copyLinkBtn, {
-            text: () => {
-                return `${window.location.origin}/forum_filmowe/details/${postId}`;
-            }
-        });
+        navigator.clipboard
+            .writeText(`${window.location.origin}/forum_filmowe/details/${postId}`)
+            .then(() => {
+                const orginalButton = copyLinkBtn.innerHTML;
+                copyLinkBtn.innerHTML = '<svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg> Copied';
+                setTimeout(function () {
+                    copyLinkBtn.innerHTML = orginalButton;
+                }, 2000);
+            })
+            .catch(err => console.log(err));
 
-        // Store the original button content
         const orginalButton = copyLinkBtn.innerHTML;
+    }
 
-        // Show a tooltip on successful copy
-        clipboard.on('success', (e) => {
-            e.clearSelection();
-
-            // Change the SVG for 2 seconds
-            copyLinkBtn.innerHTML = '<svg class="w-4 h-4 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg> Copied';
-
-            setTimeout(function () {
-                copyLinkBtn.innerHTML = orginalButton;
-            }, 2000);
-        });
-
-        // Show an error message on failure
-        clipboard.on('error', (e) => {
-            console.error('Unable to copy link', e);
-        });
+    // Add moving to detail page
+    function handleDetailLink(postDiv) {
+        const postId = postDiv.id.replace('post', '');
+        window.location.href = '/forum_filmowe/details/' + postId;
     }
 })
