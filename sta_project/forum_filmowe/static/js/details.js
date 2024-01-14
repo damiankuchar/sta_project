@@ -1,7 +1,7 @@
 function handleSingleLike() {
     const likeButton = document.getElementById('like_button');
     const postId = likeButton.getAttribute('data-post-id');
-    
+
 
     fetch(`/forum_filmowe/like_post/${postId}/`, {
         method: 'POST',
@@ -16,7 +16,7 @@ function handleSingleLike() {
             if (data.success) {
                 const postElement = document.getElementById(`post${postId}`);
                 const likesCountElement = postElement.querySelector('.likes_count');
-                if(data.liked){
+                if (data.liked) {
                     likeButton.classList = []
                     likeButton.classList.add(
                         'like_button',
@@ -65,13 +65,13 @@ function handleSingleLike() {
                         'dark:focus:text-white'
                     );
                 }
-              
+
                 likesCountElement.textContent = data.likes_count;
-    
+
                 const toastrMessage = data.liked
                     ? 'Polubiono post!'
                     : "Wycofano polubienie!";
-    
+
                 toastr.success(toastrMessage);
             } else {
                 toastr.error(data.message);
@@ -175,6 +175,52 @@ function funkcjaPoRenderze() {
             'dark:focus:text-white'
         );
     }
+    const editCommentLinks = document.querySelectorAll('.edit-comment');
+
+    editCommentLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const commentId = this.getAttribute('data-comment-id');
+            console.log(`Kliknięto link "Edytuj" dla komentarza o ID: ${commentId}`);
+        });
+    });
+
+    const deleteCommentLinks = document.querySelectorAll('.delete-comment');
+
+    deleteCommentLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const commentId = this.getAttribute('data-comment-id');
+            handleDeleteComment(commentId)
+        });
+    });
 }
 
 window.addEventListener('load', funkcjaPoRenderze);
+
+function handleDeleteComment(commentId) {
+    console.log(commentId)
+    const commentElement = document.getElementById(`Comment${commentId}`);
+    fetch(`/forum_filmowe/remove_comment/${commentId}/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (commentElement) {
+                    commentElement.remove(); 
+                } else {
+                    console.error(`Element komentarza o ID ${commentId} nie został znaleziony.`);
+                }
+            } else {
+                console.error(data.message);
+            }
+        })
+        .catch(error => {
+            console.log("Error in handleDeleteComment()")
+        });
+}

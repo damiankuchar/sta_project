@@ -84,7 +84,7 @@
             </form>
 
             {% for comment in comments %}
-            <article class="p-6 mb-6 text-base bg-gray-100 rounded-lg dark:bg-gray-900">
+            <article id="Comment{{ comment.id }}" class="p-6 mb-6 text-base bg-gray-100 rounded-lg dark:bg-gray-900">
                 <footer class="flex justify-between items-center mb-2">
                     <div class="flex items-center">
                         <p class="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white">
@@ -118,11 +118,10 @@
                             aria-labelledby="dropdownMenuIconHorizontalButton">
                             <li>
                                 <a href="#"
-                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edytuj</a>
+                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white edit-comment" data-comment-id="{{ comment.id }}">Edytuj</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="block py-2 px-4 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-red-500">Usuń</a>
+                                <a href="#" class="block py-2 px-4 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-red-500 delete-comment" data-comment-id="{{ comment.id }}">Usuń</a>
                             </li>
                         </ul>
                     </div>

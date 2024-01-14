@@ -137,3 +137,26 @@ def add_comment_to_post(request, post_id):
     except Exception as e:
         messages.error(request, str(e))
         return redirect("forum_filmowe:details", post_id=post_id)
+
+def remove_comment_from_post(request, comment_id):
+    try:
+        if not request.user.is_authenticated:
+            raise Exception("Musisz być zalogowany aby usunąć komentarz!")
+
+
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        if request.method == "DELETE":
+            if comment.user != request.user:
+                raise Exception("Nie masz uprawnień do usunięcia tego komentarza!")
+
+            comment.delete()
+
+            return JsonResponse({"success": True, "message": "Pomyślnie usunięto komentarz!"})
+
+        return redirect("forum_filmowe:details", post_id=post_id)
+    except Exception as e:
+        messages.error(request, str(e))
+        return redirect("forum_filmowe:details", post_id=post_id)
+    
+
