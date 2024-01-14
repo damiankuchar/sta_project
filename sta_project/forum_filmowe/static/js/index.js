@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
     const likeButtons = document.querySelectorAll('.like_button');
     const copyLinkButtons = document.querySelectorAll('.copyLinkBtn');
     const postDivs = document.querySelectorAll('.post');
