@@ -181,7 +181,7 @@ function funkcjaPoRenderze() {
         link.addEventListener('click', function (event) {
             event.preventDefault();
             const commentId = this.getAttribute('data-comment-id');
-            console.log(`Kliknięto link "Edytuj" dla komentarza o ID: ${commentId}`);
+            handleEditComment(commentId)
         });
     });
 
@@ -197,6 +197,49 @@ function funkcjaPoRenderze() {
 }
 
 window.addEventListener('load', funkcjaPoRenderze);
+
+function handleEditComment(commentId){
+    const commentTextElement = document.getElementById(`commentText${commentId}`);
+    const editCommentElement = document.getElementById(`editComment${commentId}`);
+    const saveButton = document.getElementById(`saveButton${commentId}`);
+    
+    commentTextElement.style.display = 'none';
+    editCommentElement.style.display = 'block';
+    saveButton.classList.remove('hidden')
+
+    saveButton.addEventListener('click', () => saveEditedComment(commentId));
+}
+
+function saveEditedComment(commentId) {
+    const editCommentElement = document.getElementById(`editComment${commentId}`);
+    const saveButton = document.getElementById(`saveButton${commentId}`);
+    const newCommentText = editCommentElement.value;
+
+    fetch(`/forum_filmowe/edit_comment/${commentId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: `new_text=${encodeURIComponent(newCommentText)}`
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const commentTextElement = document.getElementById(`commentText${commentId}`);
+                commentTextElement.innerText = newCommentText;
+
+                commentTextElement.style.display = 'block';
+                editCommentElement.style.display = 'none';
+                saveButton.classList.add('hidden')
+            } else {
+                console.error(data.message);
+            }
+        })
+        .catch(error => {
+            console.log("Error in saveEditedComment()")
+        });
+}
 
 function handleDeleteComment(commentId) {
     console.log(commentId)

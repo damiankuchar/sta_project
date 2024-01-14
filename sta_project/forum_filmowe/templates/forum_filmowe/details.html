@@ -126,9 +126,11 @@
                         </ul>
                     </div>
                 </footer>
-                <p class="font-normal text-gray-700 dark:text-gray-400">
+                <p id="commentText{{ comment.id }}" class="font-normal text-gray-700 dark:text-gray-400">
                     {{ comment.text }}
                 </p>
+                <textarea id="editComment{{ comment.id }}" class="hidden block py-2 px-4 text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">{{ comment.text }}</textarea>
+                <button id="saveButton{{ comment.id }}" class="hidden inline-flex items-center px-3 py-2 text-sm font-medium text-center rounded-lg text-white focus:outline-none bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">Zapisz zmiany</button>
             </article>
             {% endfor %}
         </section>

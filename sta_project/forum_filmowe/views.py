@@ -159,4 +159,22 @@ def remove_comment_from_post(request, comment_id):
         messages.error(request, str(e))
         return redirect("forum_filmowe:details", post_id=post_id)
     
+def edit_comment(request, comment_id):
+    try:
+        if not request.user.is_authenticated:
+            raise Exception("Musisz być zalogowany, aby edytować komentarze!")
 
+        comment = get_object_or_404(Comment, id=comment_id, user=request.user)
+
+        if request.method == "POST":
+            if comment.user != request.user:
+                raise Exception("Nie masz uprawnień do edytowania tego komentarza!")
+            new_text = request.POST.get('new_text', '')
+            
+            comment.text = new_text
+            comment.save()
+
+            return JsonResponse({"success": True, "message": "Pomyślnie zaktualizowano komentarz!"})
+
+    except Exception as e:
+        return JsonResponse({"success": False, "message": str(e)})
