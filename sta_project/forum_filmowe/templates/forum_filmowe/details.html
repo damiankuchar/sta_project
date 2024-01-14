@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="space-y-7 mb-3 sm:min-w-[576px] min-w-[320px]">
-    <div id="post{{ post.id }}"
+    <div id="post{{ post.id }}" data-post-liked="{% if post_liked %}true{% else %}false{% endif %}"
         class="post max-w-xl px-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="mt-2 flex items-center">
             <span class="flex text-sm bg-gray-800 rounded-full">
@@ -101,7 +101,8 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
                                 title="February 8th, 2022">{{ comment.created_at|date:"d.m.Y H:i" }}</time></p>
                     </div>
-                    <button id="dropdownComment{{ comment.id }}Button" data-dropdown-toggle="dropdownComment{{ comment.id }}"
+                    <button id="dropdownComment{{ comment.id }}Button"
+                        data-dropdown-toggle="dropdownComment{{ comment.id }}"
                         class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-gray-50 dark:text-gray-400 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         type="button">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"

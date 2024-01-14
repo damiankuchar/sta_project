@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     likeButtons.forEach((likeButton) => {
         likeButton.addEventListener('click', handleLike);
+        
     });
 
     copyLinkButtons.forEach((copyLinkButton) => {
@@ -15,11 +16,68 @@ document.addEventListener('DOMContentLoaded', () => {
         postDiv.addEventListener('click', () => {
             handleDetailLink(postDiv);
         });
+
+        funkcjaPoRenderze(postDiv)
     });
+
+    function funkcjaPoRenderze(postDiv) {
+        const likeButton = postDiv.querySelector('.like_button');
+        const postLiked = postDiv.dataset.postLiked === 'true';
+        console.log(postLiked)
+        if (postLiked) {
+            likeButton.classList = []
+            likeButton.classList.add(
+                'like_button',
+                'inline-flex',
+                'items-center',
+                'px-2',
+                'py-1',
+                'text-sm',
+                'font-medium',
+                'bg-green-500',
+                'border',
+                'border-gray-200',
+                'rounded-s-lg',
+                'hover:bg-gray-100',
+                'focus:z-10',
+                'focus:ring-2',
+                'dark:bg-green-100',
+                'dark:border-gray-600',
+                'dark:bg-green-100',
+                'dark:hover:text-white',
+                'dark:hover:bg-green-100',
+                'dark:focus:text-white'
+            );
+        } else {
+            likeButton.classList = []
+            likeButton.classList.add(
+                'like_button',
+                'inline-flex',
+                'items-center',
+                'px-2',
+                'py-1',
+                'text-sm',
+                'font-medium',
+                'bg-white',
+                'border',
+                'border-gray-200',
+                'rounded-s-lg',
+                'hover:bg-gray-100',
+                'focus:z-10',
+                'focus:ring-2',
+                'dark:bg-gray-700',
+                'dark:border-gray-600',
+                'dark:text-white',
+                'dark:hover:text-white',
+                'dark:hover:bg-gray-600',
+                'dark:focus:text-white'
+            );
+        }
+    }
 
     function handleLike(event) {
         const postId = this.getAttribute('data-post-id');
-
+        const likeButton = event.currentTarget;
         fetch(`/forum_filmowe/like_post/${postId}/`, {
             method: 'POST',
             headers: {
@@ -32,10 +90,57 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 if (data.success) {
                     const postElement = document.getElementById(`post${postId}`);
-                    const likesCountElement = postElement.querySelector('.likes_count');
-    
+                    const likesCountElement = postElement.querySelector('.likes_count'); 
                     likesCountElement.textContent = data.likes_count;
-    
+                    if(data.liked){
+                        likeButton.classList = []
+                        likeButton.classList.add(
+                            'like_button',
+                            'inline-flex',
+                            'items-center',
+                            'px-2',
+                            'py-1',
+                            'text-sm',
+                            'font-medium',
+                            'bg-green-500',
+                            'border',
+                            'border-gray-200',
+                            'rounded-s-lg',
+                            'hover:bg-gray-100',
+                            'focus:z-10',
+                            'focus:ring-2',
+                            'dark:bg-green-200',
+                            'dark:border-gray-600',
+                            'dark:bg-green-200',
+                            'dark:hover:text-white',
+                            'dark:hover:bg-green-200',
+                            'dark:focus:text-white'
+                        );
+                    } else {
+                        likeButton.classList = []
+                        likeButton.classList.add(
+                            'like_button',
+                            'inline-flex',
+                            'items-center',
+                            'px-2',
+                            'py-1',
+                            'text-sm',
+                            'font-medium',
+                            'bg-white',
+                            'border',
+                            'border-gray-200',
+                            'rounded-s-lg',
+                            'hover:bg-gray-100',
+                            'focus:z-10',
+                            'focus:ring-2',
+                            'dark:bg-gray-700',
+                            'dark:border-gray-600',
+                            'dark:text-white',
+                            'dark:hover:text-white',
+                            'dark:hover:bg-gray-600',
+                            'dark:focus:text-white'
+                        );
+                    }
                     const toastrMessage = data.liked
                         ? 'Polubiono post!'
                         : "Wycofano polubienie!";

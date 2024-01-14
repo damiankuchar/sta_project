@@ -1,6 +1,7 @@
 function handleSingleLike() {
     const likeButton = document.getElementById('like_button');
     const postId = likeButton.getAttribute('data-post-id');
+    
 
     fetch(`/forum_filmowe/like_post/${postId}/`, {
         method: 'POST',
@@ -15,7 +16,56 @@ function handleSingleLike() {
             if (data.success) {
                 const postElement = document.getElementById(`post${postId}`);
                 const likesCountElement = postElement.querySelector('.likes_count');
-    
+                if(data.liked){
+                    likeButton.classList = []
+                    likeButton.classList.add(
+                        'like_button',
+                        'inline-flex',
+                        'items-center',
+                        'px-2',
+                        'py-1',
+                        'text-sm',
+                        'font-medium',
+                        'bg-green-500',
+                        'border',
+                        'border-gray-200',
+                        'rounded-s-lg',
+                        'hover:bg-gray-100',
+                        'focus:z-10',
+                        'focus:ring-2',
+                        'dark:bg-green-200',
+                        'dark:border-gray-600',
+                        'dark:bg-green-200',
+                        'dark:hover:text-white',
+                        'dark:hover:bg-green-200',
+                        'dark:focus:text-white'
+                    );
+                } else {
+                    likeButton.classList = []
+                    likeButton.classList.add(
+                        'like_button',
+                        'inline-flex',
+                        'items-center',
+                        'px-2',
+                        'py-1',
+                        'text-sm',
+                        'font-medium',
+                        'bg-white',
+                        'border',
+                        'border-gray-200',
+                        'rounded-s-lg',
+                        'hover:bg-gray-100',
+                        'focus:z-10',
+                        'focus:ring-2',
+                        'dark:bg-gray-700',
+                        'dark:border-gray-600',
+                        'dark:text-white',
+                        'dark:hover:text-white',
+                        'dark:hover:bg-gray-600',
+                        'dark:focus:text-white'
+                    );
+                }
+              
                 likesCountElement.textContent = data.likes_count;
     
                 const toastrMessage = data.liked
@@ -70,3 +120,61 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+function funkcjaPoRenderze() {
+    const likeButton = document.getElementById('like_button');
+    const postId = likeButton.getAttribute('data-post-id');
+    const postElement = document.getElementById(`post${postId}`);
+    const postLiked = postElement.dataset.postLiked === 'true';
+    if (postLiked) {
+        likeButton.classList = []
+        likeButton.classList.add(
+            'like_button',
+            'inline-flex',
+            'items-center',
+            'px-2',
+            'py-1',
+            'text-sm',
+            'font-medium',
+            'bg-green-500',
+            'border',
+            'border-gray-200',
+            'rounded-s-lg',
+            'hover:bg-gray-100',
+            'focus:z-10',
+            'focus:ring-2',
+            'dark:bg-green-100',
+            'dark:border-gray-600',
+            'dark:bg-green-100',
+            'dark:hover:text-white',
+            'dark:hover:bg-green-100',
+            'dark:focus:text-white'
+        );
+    } else {
+        likeButton.classList = []
+        likeButton.classList.add(
+            'like_button',
+            'inline-flex',
+            'items-center',
+            'px-2',
+            'py-1',
+            'text-sm',
+            'font-medium',
+            'bg-white',
+            'border',
+            'border-gray-200',
+            'rounded-s-lg',
+            'hover:bg-gray-100',
+            'focus:z-10',
+            'focus:ring-2',
+            'dark:bg-gray-700',
+            'dark:border-gray-600',
+            'dark:text-white',
+            'dark:hover:text-white',
+            'dark:hover:bg-gray-600',
+            'dark:focus:text-white'
+        );
+    }
+}
+
+window.addEventListener('load', funkcjaPoRenderze);

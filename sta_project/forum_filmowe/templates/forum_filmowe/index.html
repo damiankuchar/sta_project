@@ -5,7 +5,7 @@
 {% block content %}
 <div class="space-y-7 mb-3 sm:min-w-[576px] min-w-[320px]">
     {% for post in posts %}
-    <div id="post{{ post.id }}"
+    <div id="post{{ post.id }}" data-post-liked="{% if post.post_liked %}true{% else %}false{% endif %}"
         class="post max-w-xl px-3 bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
         <div class="mt-2 flex items-center">
             <span class="flex text-sm bg-gray-800 rounded-full">
