@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import Category, Comment, Like, Movie, Post
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib import messages
-from django.db.models import Count, Case, When, Exists, OuterRef
+from django.db.models import Count, Case, When, Exists, OuterRef, Q
 
 
 def generate_unique_filename(filename):
@@ -33,6 +33,21 @@ def categories(request):
 
 def category(request, category_name):
     posts = Post.objects.filter(category__name=category_name).annotate(
+        num_comments=Count("comment", distinct=True),
+        num_likes=Count("like", distinct=True),
+        post_liked=Exists(Like.objects.filter(user=request.user, post=OuterRef("pk"))),
+    ).order_by("-created_at")
+
+    context = {"posts": posts}
+
+    return render(request, "forum_filmowe/index.html", context)
+
+def search(request):
+    search_text = request.GET.get('search_text', '')
+
+    posts = Post.objects.filter(
+        Q(title__icontains=search_text) | Q(content__icontains=search_text)
+    ).annotate(
         num_comments=Count("comment", distinct=True),
         num_likes=Count("like", distinct=True),
         post_liked=Exists(Like.objects.filter(user=request.user, post=OuterRef("pk"))),
