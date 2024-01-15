@@ -1,14 +1,15 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div class="flex justify-center items-center h-screen">
+<div class="flex justify-center items-center max-h-screen">
     <div class="space-y-7">
-        <h2 class="text-3xl font-bold mb-5">Kategorie</h2>
 
         {% for category in categories %}
         <a 
-            href="{% url 'forum_filmowe:category' category_name=category.name %}" class="text-white block w-full p-4 text-center bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
-            {{ category.name }}
+            href="{% url 'forum_filmowe:category' category_name=category.name %}" class="text-white block w-full px-2 py-2 text-center bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
+            
+            <span class="text-lg font-semibold">{{ category.name }}</span>
+            <span class="text-sm text-gray-300">({{ category.num_posts }} posts)</span>
         </a>
         {% endfor %}
     </div>

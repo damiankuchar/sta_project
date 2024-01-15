@@ -26,7 +26,7 @@ def index(request):
     return render(request, "forum_filmowe/index.html", context)
 
 def categories(request):
-    categories=Category.objects.all()
+    categories = Category.objects.annotate(num_posts=Count('post')).all()    
     context = {"categories": categories}
 
     return render(request, "forum_filmowe/categories.html",context)
