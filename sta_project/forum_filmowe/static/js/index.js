@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function funkcjaPoRenderze(postDiv) {
         const likeButton = postDiv.querySelector('.like_button');
         const postLiked = postDiv.dataset.postLiked === 'true';
-        console.log(postLiked)
         if (postLiked) {
             likeButton.classList = []
             likeButton.classList.add(

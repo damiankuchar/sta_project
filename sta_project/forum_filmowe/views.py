@@ -25,6 +25,22 @@ def index(request):
 
     return render(request, "forum_filmowe/index.html", context)
 
+def categories(request):
+    categories=Category.objects.all()
+    context = {"categories": categories}
+
+    return render(request, "forum_filmowe/categories.html",context)
+
+def category(request, category_name):
+    posts = Post.objects.filter(category__name=category_name).annotate(
+        num_comments=Count("comment", distinct=True),
+        num_likes=Count("like", distinct=True),
+        post_liked=Exists(Like.objects.filter(user=request.user, post=OuterRef("pk"))),
+    ).order_by("-created_at")
+
+    context = {"posts": posts}
+
+    return render(request, "forum_filmowe/index.html", context)
 
 def movies_index(request):
     context = {"movies": Movie.objects.all()}

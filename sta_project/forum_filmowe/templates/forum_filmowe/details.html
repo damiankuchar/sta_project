@@ -16,6 +16,10 @@
             <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">
                 {{ post.created_at|date:"d.m.Y H:i"}}
             </span>
+            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">•</span>
+            <span class="ml-2 text-sm text-gray-900 dark:text-white font-light">
+                {{ post.category }}
+            </span>
         </div>
         <div class="p-2">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ post.title }}

@@ -242,7 +242,6 @@ function saveEditedComment(commentId) {
 }
 
 function handleDeleteComment(commentId) {
-    console.log(commentId)
     const commentElement = document.getElementById(`Comment${commentId}`);
     fetch(`/forum_filmowe/remove_comment/${commentId}/`, {
         method: 'DELETE',
