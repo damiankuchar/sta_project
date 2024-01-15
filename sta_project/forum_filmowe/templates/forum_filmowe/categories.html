@@ -5,15 +5,15 @@
     <div class="space-y-7">
         <form method="GET" action="{% url 'forum_filmowe:search' %}">
             <input type="text" name="search_text" placeholder="Wpisz tekst do wyszukania" required>
-            <button type="submit" class="text-white">Szukaj</button>
+            <button type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center rounded-lg text-white focus:outline-none bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">Szukaj</button>
         </form>
 
         {% for category in categories %}
         <a 
             href="{% url 'forum_filmowe:category' category_name=category.name %}" class="text-white block w-full px-2 py-2 text-center bg-white border hover:bg-gray-100 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer">
             
-            <span class="text-lg font-semibold">{{ category.name }}</span>
-            <span class="text-sm text-gray-300">(Liczba postów: {{ category.num_posts }})</span>
+            <span class="font-normal text-gray-700 dark:text-gray-400">{{ category.name }}</span>
+            <span class="font-normal text-gray-700 dark:text-gray-300">(Liczba postów: {{ category.num_posts }})</span>
         </a>
         {% endfor %}
     </div>
